@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NxtWave AI Workshop — Referral Growth Prototype</title>
+<style>
+:root{--navy:#10223d;--blue:#275efe;--teal:#12b8a6;--ink:#172337;--muted:#637083;--line:#e5eaf2;--bg:#f5f7fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial;color:var(--ink)}
+header{background:linear-gradient(120deg,#10223d,#1e3a68);color:white;padding:28px 20px 36px}
+.wrap{max-width:1050px;margin:auto}.eyebrow{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#a9c3ff;font-weight:800}
+h1{font-size:clamp(27px,4vw,42px);line-height:1.08;margin:12px 0}header p{color:#dce7ff;max-width:650px;line-height:1.6}
+.pill{display:inline-block;border:1px solid #5d79a8;border-radius:999px;padding:7px 11px;font-size:12px;margin:4px 5px 0 0}
+main{max-width:1050px;margin:-16px auto 50px;padding:0 16px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 5px 20px #15294a08}
+.statlabel{font-size:12px;color:var(--muted);font-weight:700}.stat{font-size:29px;font-weight:850;margin:7px 0 3px}.sub{font-size:12px;color:var(--muted)}
+.layout{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:14px}.sectiontitle{font-size:18px;margin:0 0 7px}.hint{font-size:13px;color:var(--muted);line-height:1.55;margin:0 0 15px}
+label{display:block;font-size:12px;font-weight:800;margin:12px 0 6px}input,select{width:100%;padding:11px 12px;border:1px solid #d6deeb;border-radius:10px;font:inherit;background:white}
+button{border:0;border-radius:10px;background:var(--blue);color:white;padding:11px 14px;font-weight:800;cursor:pointer}button.secondary{background:#edf2ff;color:#2449b8}button.dark{background:var(--navy)}button:hover{filter:brightness(.96)}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.refbox{background:#f2f6ff;border:1px dashed #9db3f5;border-radius:12px;padding:12px;margin-top:12px;overflow-wrap:anywhere;font-size:13px}
+.bar{height:10px;background:#e9eef7;border-radius:20px;overflow:hidden;margin:10px 0}.bar>div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width .25s}
+.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{background:#edf8f7;color:#087e73;padding:7px 9px;border-radius:8px;font-size:12px;font-weight:750}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 6px;border-bottom:1px solid var(--line)}th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.notice{font-size:12px;color:var(--muted);line-height:1.55;margin-top:12px}.tag{font-size:11px;background:#fff3db;color:#8b5a00;border-radius:7px;padding:5px 7px;font-weight:800}
+footer{text-align:center;font-size:12px;color:var(--muted);padding:25px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.row{flex-direction:column}.row>*{width:100%}}
+</style></head>
+<body>
+<header><div class="wrap"><div class="eyebrow">NxtWave · Growth Challenge · Prototype</div>
+<h1>Build Your First AI Project<br>in 60 Minutes.</h1>
+<p>A beginner-friendly workshop concept for final-year engineering students. Build a small AI project, understand the workflow, and leave with something you can explain in an interview.</p>
+<span class="pill">Free online workshop</span><span class="pill">Beginner friendly</span><span class="pill">60 minutes</span></div></header>
+<main>
+<div class="stats">
+<div class="card"><div class="statlabel">Registration target</div><div class="stat">500</div><div class="sub">Across 7 days</div></div>
+<div class="card"><div class="statlabel">Current demo registrations</div><div class="stat" id="regCount">0</div><div class="sub">Sample tracker, not live data</div></div>
+<div class="card"><div class="statlabel">Target progress</div><div class="stat" id="progressText">0%</div><div class="sub">Illustrative only</div></div>
+<div class="card"><div class="statlabel">Budget</div><div class="stat">₹2,000</div><div class="sub">Reserve paid spend for proven channels</div></div>
+</div>
+<div class="layout">
+<section class="card">
+<h2 class="sectiontitle">1. Generate a referral link</h2><p class="hint">A student ambassador or registrant can create a shareable campaign link. Use this demo to show how referrals can be attributed.</p>
+<label for="studentName">Ambassador / student name</label><input id="studentName" placeholder="e.g., Aditi Sharma">
+<label for="college">College or community</label><input id="college" placeholder="e.g., College AI Club">
+<div class="row" style="margin-top:14px"><button id="generate">Generate referral link</button><button class="secondary" id="copy" disabled>Copy link</button></div>
+<div class="refbox" id="linkBox">Your referral link will appear here.</div>
+<div class="notice">Prototype note: this generates a local demo URL and does not publish a live registration page. For production, connect the link to a form/database and record consent appropriately.</div>
+</section>
+<section class="card">
+<h2 class="sectiontitle">2. Simulate registration attribution</h2><p class="hint">Demonstrate how the campaign would track channel performance. These are fictional sample entries for the prototype.</p>
+<label for="channel">Acquisition channel</label><select id="channel"><option>College tech clubs</option><option>Class representatives</option><option>WhatsApp communities</option><option>Student referrals</option><option>LinkedIn / Instagram</option><option>Paid promotion</option></select>
+<label for="count">Number of sample registrations to add</label><input id="count" type="number" min="1" max="500" value="25">
+<button id="add" style="width:100%;margin-top:14px">Add sample registrations</button>
+<div class="bar"><div id="barFill"></div></div><div class="sub" id="progressCaption">0 of 500 target registrations (demo only)</div>
+<div class="chips" style="margin-top:14px"><span class="chip">Track source</span><span class="chip">Compare channels</span><span class="chip">Iterate daily</span></div>
+</section></div>
+<section class="card" style="margin-top:14px">
+<div class="row" style="justify-content:space-between"><div><h2 class="sectiontitle">3. Channel tracker</h2><p class="hint" style="margin-bottom:4px">Use this table to explain how source attribution guides budget and outreach decisions.</p></div><button class="dark" id="reset" style="flex:0 0 auto">Reset demo</button></div>
+<div style="overflow-x:auto"><table><thead><tr><th>Channel</th><th>Demo registrations</th><th>Share of demo total</th><th>Next action</th></tr></thead><tbody id="channelRows"></tbody></table></div>
+<p class="notice"><span class="tag">Important</span> All counts are simulated and reset when the page is refreshed. This is a working front-end prototype, not a live campaign or a connected database. Do not present the sample numbers as actual results.</p>
+</section>
+</main><footer>Built as a growth experiment prototype · Goal: 500 registrations in 7 days</footer>
+<script>
+const channels=["College tech clubs","Class representatives","WhatsApp communities","Student referrals","LinkedIn / Instagram","Paid promotion"];
+let totals=Object.fromEntries(channels.map(c=>[c,0])); let currentLink="";
+const $=id=>document.getElementById(id);
+function render(){
+ const total=Object.values(totals).reduce((a,b)=>a+b,0), pct=Math.min(100,Math.round(total/5));
+ $("regCount").textContent=total;$("progressText").textContent=pct+"%";$("barFill").style.width=pct+"%";
+ $("progressCaption").textContent=total+" of 500 target registrations (demo only)";
+ $("channelRows").innerHTML=channels.map(c=>`<tr><td>${c}</td><td>${totals[c]}</td><td>${total?Math.round(totals[c]/total*100):0}%</td><td>${c==="Paid promotion"?"Scale only if efficient":c==="Student referrals"?"Prompt one more share":c==="College tech clubs"?"Ask club admins to repost":"Follow up with community lead"}</td></tr>`).join("");
+}
+$("generate").addEventListener("click",()=>{
+ const name=$("studentName").value.trim(), college=$("college").value.trim();
+ if(!name||!college){$("linkBox").textContent="Please enter a name and college/community first.";return;}
+ const slug=(name+"-"+college).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+ currentLink=location.href.split("?")[0]+"?ref="+encodeURIComponent(slug);
+ $("linkBox").textContent=currentLink;$("copy").disabled=false;
+});
+$("copy").addEventListener("click",async()=>{
+ try{await navigator.clipboard.writeText(currentLink);$("copy").textContent="Copied!";}
+ catch(e){$("linkBox").textContent="Select and copy this link: "+currentLink;}
+});
+$("add").addEventListener("click",()=>{
+ const n=Math.max(1,Math.min(500,parseInt($("count").value,10)||1)),c=$("channel").value;
+ totals[c]+=n;render();
+});
+$("reset").addEventListener("click",()=>{totals=Object.fromEntries(channels.map(c=>[c,0]));render();$("copy").textContent="Copy link";});
+render();
+</script></body></html>
